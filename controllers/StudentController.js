@@ -1,34 +1,38 @@
+import Student from "../mongooseModel/Student"
+
 const router = Router()
-router.get("/", (req, res) => {
-    StudentModel.search(req.query, res.callback)
-})
-router.get(
-    "/:id",
-    ValidateRequest({
-        params: {
-            type: "object",
-            properties: {
-                id: {
-                    type: "string",
-                    format: "objectId"
-                }
-            }
-        }
-    }),
-    (req, res) => {
-        StudentModel.getOne(req.params, res.callback)
+
+router.post("/create", async (req, res) => {
+    try {
+        var response = await Student(req.body).save()
+        res.json(response)
+    } catch (error) {
+        console.error(error)
+        response.status(500).json(error)
     }
-)
-router.post("/", (req, res) => {
-    StudentModel.saveData(req.body, res.callback)
 })
-router.put("/:id", (req, res) => {
-    res.send(`Update For Id ${req.params.id}`)
+
+router.put("/update", async (req, res) => {
+    try {
+        var response = await Student.findOneAndUpdate(
+            { _id: req.body._id },
+            req.body
+        )
+        res.json(response)
+    } catch (error) {
+        console.error(error)
+        response.status(500).json(error)
+    }
 })
-router.patch("/:id", (req, res) => {
-    res.send(`Path For Id ${req.params.id}`)
+
+router.delete("/delete", async (req, res) => {
+    try {
+        var response = await Student.deleteOne({ _id: req.body._id })
+        res.json(response)
+    } catch (error) {
+        console.error(error)
+        response.status(500).json(error)
+    }
 })
-router.delete("/:id", (req, res) => {
-    res.send(`Delete For Id ${req.params.id}`)
-})
+
 export default router
