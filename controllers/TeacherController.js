@@ -26,6 +26,25 @@ router.put("/update", async (req, res) => {
         response.status(500).json(error)
     }
 })
+router.get("/getTeacher", async (req, res) => {
+    try {
+        var response = await teacher.findById({ _id: req.body._id })
+        res.json(response)
+    } catch (error) {
+        console.error(error)
+        response.status(500).json(error)
+    }
+})
+
+router.post("/search", async (req, res) => {
+    try {
+        var response = await teacher.find({ name: req.body.name })
+        res.json(response)
+    } catch (error) {
+        console.error(error)
+        response.status(500).json(error)
+    }
+})
 
 router.delete("/delete", async (req, res) => {
     try {
