@@ -3,17 +3,16 @@ import teacher from "../mongooseModel/Teacher"
 const router = Router()
 
 router.post("/create", async (req, res) => {
-    console.log("abba",  req,res)
+    console.log("abba", req, res)
     try {
         var response = await teacher(req.body).save()
-        console.log("hhhh",response);
+        console.log("hhhh", response)
         res.json(response)
-        
     } catch (error) {
         console.error(error)
         response.status(500).json(error)
     }
-}) 
+})
 router.put("/update", async (req, res) => {
     try {
         var response = await teacher.findOneAndUpdate(
@@ -55,5 +54,4 @@ router.delete("/delete", async (req, res) => {
         response.status(500).json(error)
     }
 })
-export default router 
-
+export default router
